@@ -1,0 +1,11 @@
+<h3>Groups</h3>
+
+<% if @groups.any? %>
+<ul>
+  <% @groups.each do |group| %>
+  <li><%= group.fetch("name") %></li>
+  <% end %>
+</ul>
+<% else %>
+<h4>No groups</h4>
+<% end %>
