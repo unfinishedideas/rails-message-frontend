@@ -18,6 +18,9 @@ class GroupsController < ApplicationController
     response = RestClient.get "http://localhost:3000/groups/#{params[:id]}"
     @group = response.body
     @group = JSON.parse(@group)
+    response = RestClient.get "http://localhost:3000/groups/#{params[:id]}/messages"
+    @messages = response.body
+    @messages = JSON.parse(@messages)
     render(:show)
   end
 #
@@ -35,15 +38,14 @@ class GroupsController < ApplicationController
 #     end
 #   end
 #
-#   def destroy
-#     @group = Group.find(params[:id])
-#     if @group.destroy!
-#       render status: 200, json: {
-#         message: "DESTROYED Group successfully."
-#       }
-#     end
-#   end
-#
+  def destroy
+    RestClient.delete "http://localhost:3000/groups/#{params[:id]}"
+    response = RestClient.get 'http://localhost:3000/groups'
+    @groups = response.body
+    @groups = JSON.parse(@groups)
+    render(:index)
+  end
+
 #   private
 #   def group_params
 #     params.permit(:name)

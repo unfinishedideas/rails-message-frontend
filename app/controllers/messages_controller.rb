@@ -1,6 +1,36 @@
-# require 'pry'
-#
-# class MessagesController < ApplicationController
+require 'rest-client'
+require 'pry'
+require 'json'
+
+class MessagesController < ApplicationController
+
+  def show
+    response = RestClient.get "http://localhost:3000/groups/#{params[:group_id]}/messages/#{params[:id]}"
+    @message = response.body
+    @message = JSON.parse(@message)
+    response = RestClient.get "http://localhost:3000/users/#{@message.fetch("user_id")}"
+    @user = response.body
+    @user = JSON.parse(@user)
+    # binding.pry
+    # json_response(@groups)
+    render(:show)
+  end
+
+  def destroy
+    RestClient.delete "http://localhost:3000/groups/#{params[:group_id]}/messages/#{params[:id]}"
+    response = RestClient.get "http://localhost:3000/groups/#{params[:group_id]}/messages"
+    @messages = response.body
+    @messages = JSON.parse(@messages)
+    response = RestClient.get "http://localhost:3000/groups/#{params[:group_id]}"
+    @group = response.body
+    @group = JSON.parse(@group)
+    redirect_to "/groups/#{params[:group_id]}"
+  end
+
+
+end
+
+
 #
 #   def index
 #     # if params[:group_id]

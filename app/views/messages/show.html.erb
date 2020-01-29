@@ -1,0 +1,12 @@
+<h1><%= @message.fetch("title") %></h1>
+<h3><%= @message.fetch("content") %></h3>
+<h3>Author: <%= @user.fetch("user_name") %></h3>
+
+<a href="/groups/<%= @message.fetch("group_id") %>">Back</a>
+
+<p>
+  <%=
+  link_to "Delete Message", group_message_path(@message),
+  :data => {:confirm => "Really delete this fancy message?", :method => "delete"}
+  %>
+</p>
