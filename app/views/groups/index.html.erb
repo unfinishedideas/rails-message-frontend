@@ -3,7 +3,7 @@
 <% if @groups.any? %>
 <ul>
   <% @groups.each do |group| %>
-  <li><%= group.fetch("name") %></li>
+  <li><a href="/groups/<%= group.fetch("id") %>"><%= group.fetch("name") %></a></li>
   <% end %>
 </ul>
 <% else %>

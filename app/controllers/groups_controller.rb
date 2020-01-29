@@ -13,10 +13,13 @@ class GroupsController < ApplicationController
     render(:index)
   end
 #
-#   def show
-#     @group = Group.find(params[:id])
-#     json_response(@group)
-#   end
+  def show
+    # binding.pry
+    response = RestClient.get "http://localhost:3000/groups/#{params[:id]}"
+    @group = response.body
+    @group = JSON.parse(@group)
+    render(:show)
+  end
 #
 #   def create
 #     @group = Group.create!(group_params)
