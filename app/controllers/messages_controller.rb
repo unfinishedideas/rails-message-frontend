@@ -11,8 +11,9 @@ class MessagesController < ApplicationController
     response = RestClient.get "http://localhost:3000/users/#{@message.fetch("user_id")}"
     @user = response.body
     @user = JSON.parse(@user)
-    # binding.pry
-    # json_response(@groups)
+    response = RestClient.get "http://localhost:3000/groups/#{params[:group_id]}"
+    @group = response.body
+    @group = JSON.parse(@group)
     render(:show)
   end
 
@@ -27,6 +28,46 @@ class MessagesController < ApplicationController
     redirect_to "/groups/#{params[:group_id]}"
   end
 
+  def new
+    response = RestClient.get "http://localhost:3000/groups/#{params[:group_id]}"
+    @group = response.body
+    @group = JSON.parse(@group)
+    response = RestClient.get 'http://localhost:3000/users'
+    @users = response.body
+    @users = JSON.parse(@users)
+    render(:new)
+  end
+
+  def edit
+    response = RestClient.get "http://localhost:3000/groups/#{params[:group_id]}/messages/#{params[:id]}"
+    @message = response.body
+    @message = JSON.parse(@message)
+    response = RestClient.get "http://localhost:3000/users/#{@message.fetch("user_id")}"
+    @user = response.body
+    @user = JSON.parse(@user)
+    response = RestClient.get "http://localhost:3000/groups/#{params[:group_id]}"
+    @group = response.body
+    @group = JSON.parse(@group)
+    response = RestClient.get 'http://localhost:3000/users'
+    @users = response.body
+    @users = JSON.parse(@users)
+    render(:edit)
+  end
+
+  def update
+    RestClient.patch "http://localhost:3000/groups/#{params[:group_id]}/messages/#{params[:id]}", {title: "#{params[:title]}", content: "#{params[:content]}", user_id: "#{params[:user_id]}"}
+    redirect_to "/groups/#{params[:group_id]}/messages/#{params[:id]}"
+  end
+
+  def create
+    RestClient.post "http://localhost:3000/groups/#{params[:group_id]}/messages", {title: "#{params[:title]}", content: "#{params[:content]}", user_id: "#{params[:user_id]}"}
+    redirect_to "/groups/#{params[:group_id]}"
+  end
+
+  private
+  def group_params
+    params.permit(:title, :content, :user_id, :group_id)
+  end
 
 end
 

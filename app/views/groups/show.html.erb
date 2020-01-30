@@ -14,6 +14,8 @@
   :data => {:confirm => "Really delete this fancy group?", :method => "delete"}
   %>
 </p>
+<a href="/groups/<%= @group.fetch("id") %>/messages/new">Add Message</a>
+<br>
 <a href="/groups/<%= @group.fetch("id") %>/edit">Edit</a>
 <br>
 <a href="/">Back</a>

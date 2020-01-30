@@ -1,0 +1,17 @@
+<%= form_tag(group_messages_path, :method => "post") do %>
+<%= label_tag(:title, 'Title:') %>
+<%= text_field_tag(:title) %>
+<%= label_tag(:content, 'Content:') %>
+<%= text_field_tag(:content) %>
+
+<select for="user_id" name="user_id" id="user_id">
+  <% @users.each do |user| %>
+  <option value="<%= user.fetch("id") %>"><%= user.fetch("user_name") %></option>
+  <% end %>
+</select>
+
+<%= submit_tag('Post Message') %>
+
+<% end %>
+<hr>
+<a href="/groups/<%= @group.fetch("id") %>">Back</a>

@@ -1,7 +1,6 @@
 require 'rest-client'
 require 'pry'
 require 'json'
-
 class GroupsController < ApplicationController
 
   def index
