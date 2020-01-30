@@ -8,13 +8,10 @@ class GroupsController < ApplicationController
     response = RestClient.get 'http://localhost:3000/groups'
     @groups = response.body
     @groups = JSON.parse(@groups)
-    # binding.pry
-    # json_response(@groups)
     render(:index)
   end
 #
   def show
-    # binding.pry
     response = RestClient.get "http://localhost:3000/groups/#{params[:id]}"
     @group = response.body
     @group = JSON.parse(@group)
@@ -25,16 +22,11 @@ class GroupsController < ApplicationController
   end
 #
   def create
-    binding.pry
-    RestClient.post('http://localhost:3000/groups', {name: "#{group_params.name}"})
-    # RestClient.post 'http://localhost:3000/groups', {name: "#{group_params.name}"}
+    RestClient.post('http://localhost:3000/groups', {name: "#{params[:name]}"})
     redirect_to "/groups"
   end
 
   def new
-    # response = RestClient.get "http://localhost:3000/groups/#{params[:id]}"
-    # @group = response.body
-    # @group = JSON.parse(@group)
     render (:new)
   end
 
@@ -46,7 +38,7 @@ class GroupsController < ApplicationController
   end
 
   def update
-    RestClient.patch "http://localhost:3000/groups/#{params[:id]}", {name: "#{:name}"}
+    RestClient.patch "http://localhost:3000/groups/#{params[:id]}", {name: "#{params[:name]}"}
     response = RestClient.get "http://localhost:3000/groups/#{params[:id]}"
     @group = response.body
     @group = JSON.parse(@group)

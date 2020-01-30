@@ -1,0 +1,16 @@
+body {
+  background-color: rgb(50,50,50);
+  color: white;
+}
+
+a {
+  color: white;
+}
+
+.containment {
+  padding: 3%;
+}
+
+.headtext {
+  text-align: center;
+}
