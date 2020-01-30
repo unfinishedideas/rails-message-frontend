@@ -24,20 +24,35 @@ class GroupsController < ApplicationController
     render(:show)
   end
 #
-#   def create
-#     @group = Group.create!(group_params)
-#     json_response(@group, :created)
-#   end
-#
-#   def update
-#     @group = Group.find(params[:id])
-#     if @group.update!(group_params)
-#       render status: 200, json: {
-#         message: "Updated Group Successfully."
-#       }
-#     end
-#   end
-#
+  def create
+    binding.pry
+    RestClient.post('http://localhost:3000/groups', {name: "#{group_params.name}"})
+    # RestClient.post 'http://localhost:3000/groups', {name: "#{group_params.name}"}
+    redirect_to "/groups"
+  end
+
+  def new
+    # response = RestClient.get "http://localhost:3000/groups/#{params[:id]}"
+    # @group = response.body
+    # @group = JSON.parse(@group)
+    render (:new)
+  end
+
+  def edit
+    response = RestClient.get "http://localhost:3000/groups/#{params[:id]}"
+    @group = response.body
+    @group = JSON.parse(@group)
+    render(:edit)
+  end
+
+  def update
+    RestClient.patch "http://localhost:3000/groups/#{params[:id]}", {name: "#{:name}"}
+    response = RestClient.get "http://localhost:3000/groups/#{params[:id]}"
+    @group = response.body
+    @group = JSON.parse(@group)
+    render(:edit)
+  end
+
   def destroy
     RestClient.delete "http://localhost:3000/groups/#{params[:id]}"
     response = RestClient.get 'http://localhost:3000/groups'
@@ -51,4 +66,9 @@ class GroupsController < ApplicationController
 #     params.permit(:name)
 #   end
 #
+private
+def group_params
+  params.permit(:name)
+end
+
 end
